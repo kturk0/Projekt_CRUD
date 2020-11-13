@@ -70,7 +70,7 @@ create table dostawy
 (
 id_dostawa int primary key identity,
 id_dostawcy int,
-id_mebla int,
+id_produktu int,
 ilosc int,
 data_dostawy date
 )
@@ -98,7 +98,7 @@ create table zamowienia
 id_zamowienie int primary key identity,
 id_klienta int,
 id_pracownika int,
-id_mebla int,
+id_produktu int,
 ilosc int,
 data_zamowienia date
 )
@@ -115,7 +115,7 @@ insert into admini values
 
 go
 insert into pracownicy values
-('Marcin','Brzozowski','1975-09-11',3005.50,'pr1','prac1', 1,0),
+('Marcin','Brzozowski','1975-09-11',3005.50,'p','p', 1,0),
 ('Marta','Cielecka','1997-04-29',4500.20,'pr2','prac2', 3,2),
 ('Wojciech','Malinowski','1994-03-25',3603.90,'pr3','prac3', 2,1),
 ('Krzysztof','Jankowski','1988-12-03',6220.40,'pr4','prac4', 4,1)

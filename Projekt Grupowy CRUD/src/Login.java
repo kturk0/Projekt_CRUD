@@ -116,18 +116,27 @@ public class Login extends JFrame implements ActionListener {
                 this.setVisible(false);
                 okno.setVisible(true);
            }
-          /*   else if(userLevel == 2)
+            else if(userLevel == 2)
             {
-
+                FramePracownik okno=new FramePracownik(userID);
+                okno.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.setVisible(false);
+                okno.setVisible(true);
             }
             else if(userLevel == 1)
             {
-
+                FramePracownik okno=new FramePracownik(userID);
+                okno.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.setVisible(false);
+                okno.setVisible(true);
             }
             else if(userLevel == 0)
             {
-
-            }*/
+                FramePracownik okno=new FramePracownik(userID);
+                okno.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.setVisible(false);
+                okno.setVisible(true);
+            }
             else
             {
                 JFrame errorFrame=new JFrame();
