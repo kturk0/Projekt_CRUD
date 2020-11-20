@@ -78,7 +78,7 @@ go
 create table produkty
 (
 id_produkt int primary key identity,
-nazwa varchar(20) ,
+nazwa varchar(40) ,
 opis varchar(200),
 id_kategorii int,
 cena decimal(20,2),
@@ -148,13 +148,15 @@ insert into produkty values
 ('Dêbiarz C7', 'Stó³ dêbowy rozmair 1m x 3m',1, 406.40, 55),           
 ('Komfort Extra', 'Fotel skórzany ekologiczny',1, 789.99, 124),
 ('Chumrka M', 'Wymiary 200cm x 155cm',1, 1799.99, 49),
-('Sosner L', 'Stó³ sosnowy rozmair 1m x 2m',1, 649.99, 43)
+('Sosner L', 'Stó³ sosnowy rozmair 1m x 2m',1, 649.99, 43),
+('VIR Ziemia uniwersalna 50kg', 'Worki',4, 11.99, 211),
+('POWER SS28M', 'Wiertarka',3, 149.99,21)
 go
 insert into kategorie values
 ('Meble','A',0.95),
 ('Elektronika','A', 0.95),           
 ('Narzêdzia','C',0.92),
-('Sto³y','D',0.84)
+('Ogrodnictwo','D',0.84)
 go
 insert into zamowienia values
 (2,1,1,2,'2017-11-23'),

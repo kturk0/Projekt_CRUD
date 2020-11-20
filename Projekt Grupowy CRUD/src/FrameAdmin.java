@@ -1,34 +1,15 @@
+import Add.*;
 import Views.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class FrameAdmin extends JFrame implements ActionListener {
+class FrameAdmin extends FrameBase implements ActionListener {
 
-    JMenuBar menuBar;
-    JMenu Wyswietl,Zaawansowane;
-    JMenuItem Pracownicy, Klienci, Dostawcy, Produkty, Zamowienia, Dostawy, ZarzadzanieUprawnieniami ;
 
     public FrameAdmin() {
-        setSize(450, 350);
-        setLocation(100, 100);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(null);
-        setTitle("Magazyn");
-
-        menuBar=new JMenuBar();
-
-        Wyswietl=new JMenu("Wyświetl"); //utworzenie pierwszej opcji menu
-
-
-        Pracownicy=new JMenuItem("Pracownicy",'P');
-        Klienci=new JMenuItem("Klienci",'K');
-        Dostawcy=new JMenuItem("Dostawcy",'D');
-        Zamowienia=new JMenuItem("Zamowienia",'Z');
-        Produkty=new JMenuItem("Produkty",'R');
-        Dostawy=new JMenuItem("Dostawy",'O');
+        super();
         Wyswietl.add(Pracownicy);
         Wyswietl.add(Klienci);
         Wyswietl.add(Dostawcy);
@@ -45,12 +26,6 @@ class FrameAdmin extends JFrame implements ActionListener {
         Produkty.addActionListener(this);
         Dostawy.addActionListener(this);
 
-        Pracownicy.setAccelerator(KeyStroke.getKeyStroke("ctrl P"));
-        Klienci.setAccelerator(KeyStroke.getKeyStroke("ctrl K"));
-        Dostawcy.setAccelerator(KeyStroke.getKeyStroke("ctrl D"));
-        Zamowienia.setAccelerator(KeyStroke.getKeyStroke("ctrl Z"));
-        Produkty.setAccelerator(KeyStroke.getKeyStroke("ctrl M"));
-        Dostawy.setAccelerator(KeyStroke.getKeyStroke("ctrl O"));
 
         Zaawansowane=new JMenu("Zaawansowane");
         ZarzadzanieUprawnieniami=new JMenuItem("Zarządzanie Uprawnieniami",'Z');
@@ -59,6 +34,31 @@ class FrameAdmin extends JFrame implements ActionListener {
         Zaawansowane.add(ZarzadzanieUprawnieniami);
 
         ZarzadzanieUprawnieniami.addActionListener(this);
+
+        ButtonAddPracownik =new JButton("Dodaj nowego pracownika");
+        ButtonAddPracownik.setBounds(10,10,190,30);
+        add(ButtonAddPracownik);
+        ButtonAddPracownik.addActionListener(this);
+        ButtonAddKlient =new JButton("Dodaj nowego klienta");
+        ButtonAddKlient.setBounds(10,50,190,30);
+        add(ButtonAddKlient);
+        ButtonAddKlient.addActionListener(this);
+        ButtonAddDostawca =new JButton("Dodaj nowego dostawcę");
+        ButtonAddDostawca.setBounds(10,90,190,30);
+        add(ButtonAddDostawca);
+        ButtonAddDostawca.addActionListener(this);
+        ButtonAddProdukt=new JButton("Dodaj produkt");
+        ButtonAddProdukt.setBounds(10,130,190,30);
+        add(ButtonAddProdukt);
+        ButtonAddProdukt.addActionListener(this);
+        ButtonAddZamowienie =new JButton("Dodaj zamówienie");
+        ButtonAddZamowienie.setBounds(10,200,190,30);
+        add(ButtonAddZamowienie);
+        ButtonAddZamowienie.addActionListener(this);
+        ButtonAddDostawe=new JButton("Dodaj dostawę");
+        ButtonAddDostawe.setBounds(10,240,190,30);
+        add(ButtonAddDostawe);
+        ButtonAddDostawe.addActionListener(this);
 
         setJMenuBar(menuBar);
         menuBar.add(Wyswietl);
@@ -82,6 +82,18 @@ class FrameAdmin extends JFrame implements ActionListener {
             new ViewProdukty();
         else if (zrodlo==Dostawy)
             new ViewDostawy();
+        else if (zrodlo==ButtonAddPracownik)
+            new AddPracownik();
+        else if (zrodlo==ButtonAddKlient)
+            new AddKlient();
+        else if (zrodlo==ButtonAddDostawca)
+            new AddDostawca();
+        else if (zrodlo==ButtonAddZamowienie)
+            new AddZamowienie();
+        else if (zrodlo==ButtonAddDostawe)
+            new AddDostawa();
+        else if (zrodlo==ButtonAddProdukt)
+            new AddProdukt();
 
 
 

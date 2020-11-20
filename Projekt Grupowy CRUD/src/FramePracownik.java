@@ -1,43 +1,22 @@
-import Views.Wyswietlacz;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
+
+import Add.*;
 import Views.*;
 
-class FramePracownik extends JFrame implements ActionListener {
+class FramePracownik extends FrameBase implements ActionListener {
 
     Connection con;
-    JButton p2, p3, p4, p5, bKlientD;
     int id = 1;
-    JMenuBar menuBar;
-    JMenu Wyswietl;
-    JMenuItem Klienci, Dostawcy, Produkty, Zamowienia, Dostawy ;
-
 
     static JLabel l;
 
-
-
     public FramePracownik(int userID){
-        setSize(450,300);
-        setLocation(100,100);
-        setResizable(false);
-        setLayout(null);
-        setTitle("Hurtownia");
-        id = userID;
-        menuBar=new JMenuBar(); //utworzenie "paska" menu
-
-        Wyswietl=new JMenu("Wyświetl"); //utworzenie pierwszej opcji menu
-
-
-        Klienci=new JMenuItem("Klienci",'K');
-        Dostawcy=new JMenuItem("Dostawcy",'D');
-        Zamowienia=new JMenuItem("Zamowienia",'Z');
-        Produkty=new JMenuItem("Meble",'M');
-        Dostawy=new JMenuItem("Dostawy",'O');
+        super();
         Wyswietl.add(Klienci);
         Wyswietl.add(Dostawcy);
         Wyswietl.addSeparator();
@@ -51,12 +30,6 @@ class FramePracownik extends JFrame implements ActionListener {
         Zamowienia.addActionListener(this);
         Produkty.addActionListener(this);
         Dostawy.addActionListener(this);
-
-        Klienci.setAccelerator(KeyStroke.getKeyStroke("ctrl K"));
-        Dostawcy.setAccelerator(KeyStroke.getKeyStroke("ctrl D"));
-        Zamowienia.setAccelerator(KeyStroke.getKeyStroke("ctrl Z"));
-        Produkty.setAccelerator(KeyStroke.getKeyStroke("ctrl M"));
-        Dostawy.setAccelerator(KeyStroke.getKeyStroke("ctrl O"));
 
         setJMenuBar(menuBar);
         menuBar.add(Wyswietl);
@@ -77,6 +50,18 @@ class FramePracownik extends JFrame implements ActionListener {
             new Views.ViewProdukty();
         else if (zrodlo==Dostawy)
             new Views.ViewDostawy();
+        else if (zrodlo==ButtonAddPracownik)
+            new AddPracownik();
+        else if (zrodlo==ButtonAddKlient)
+            new AddKlient();
+        else if (zrodlo==ButtonAddDostawca)
+            new AddDostawca();
+        else if (zrodlo==ButtonAddZamowienie)
+            new AddZamowienie();
+        else if (zrodlo==ButtonAddDostawe)
+            new AddDostawa();
+        else if (zrodlo==ButtonAddProdukt)
+            new AddProdukt();
 
     }
 
