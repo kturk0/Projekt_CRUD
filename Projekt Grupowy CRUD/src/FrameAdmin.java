@@ -1,4 +1,5 @@
 import Add.*;
+import Delete.*;
 import Views.*;
 
 import javax.swing.*;
@@ -60,6 +61,31 @@ class FrameAdmin extends FrameBase implements ActionListener {
         add(ButtonAddDostawe);
         ButtonAddDostawe.addActionListener(this);
 
+        ButtonDeletePracownik=new JButton("Usuń pracownika");
+        ButtonDeletePracownik.setBounds(220,10,190,30);
+        add(ButtonDeletePracownik);
+        ButtonDeletePracownik.addActionListener(this);
+        ButtonDeleteKlient=new JButton("Usuń klienta");
+        ButtonDeleteKlient.setBounds(220,50,190,30);
+        add(ButtonDeleteKlient);
+        ButtonDeleteKlient.addActionListener(this);
+        ButtonDeleteDostawca =new JButton("Usuń dostawcę");
+        ButtonDeleteDostawca.setBounds(220,90,190,30);
+        add(ButtonDeleteDostawca);
+        ButtonDeleteDostawca.addActionListener(this);
+        ButtonDeleteProdukt=new JButton("Usuń produkt");
+        ButtonDeleteProdukt.setBounds(220,130,190,30);
+        add(ButtonDeleteProdukt);
+        ButtonDeleteProdukt.addActionListener(this);
+        ButtonDeleteZamowienie=new JButton("Usuń zamówienie");
+        ButtonDeleteZamowienie.setBounds(220,200,190,30);
+        add(ButtonDeleteZamowienie);
+        ButtonDeleteZamowienie.addActionListener(this);
+        ButtonDeleteDostawa=new JButton("Usuń dostawę");
+        ButtonDeleteDostawa.setBounds(220,240,190,30);
+        add(ButtonDeleteDostawa);
+        ButtonDeleteDostawa.addActionListener(this);
+
         setJMenuBar(menuBar);
         menuBar.add(Wyswietl);
         menuBar.add(Zaawansowane);
@@ -86,7 +112,7 @@ class FrameAdmin extends FrameBase implements ActionListener {
             new AddPracownik();
         else if (zrodlo==ButtonAddKlient)
             new AddKlient();
-        else if (zrodlo==ButtonAddDostawca)
+        else if (zrodlo== ButtonAddDostawca)
             new AddDostawca();
         else if (zrodlo==ButtonAddZamowienie)
             new AddZamowienie();
@@ -94,6 +120,18 @@ class FrameAdmin extends FrameBase implements ActionListener {
             new AddDostawa();
         else if (zrodlo==ButtonAddProdukt)
             new AddProdukt();
+        else if (zrodlo==ButtonDeletePracownik)
+            new DeletePracownik();
+        else if (zrodlo==ButtonDeleteKlient)
+            new DeleteKlient();
+        else if (zrodlo==ButtonDeleteDostawca)
+            new DeleteDostawca();
+        else if (zrodlo==ButtonDeleteProdukt)
+            new DeleteProdukt();
+        else if (zrodlo==ButtonDeleteZamowienie)
+            new DeleteZamowienie();
+        else if (zrodlo==ButtonDeleteDostawa)
+            new DeleteDostawa();
 
 
 

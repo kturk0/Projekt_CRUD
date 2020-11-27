@@ -2,11 +2,9 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.sql.Connection;
 
 import Add.*;
-import Views.*;
 
 class FramePracownik extends FrameBase implements ActionListener {
 
@@ -54,7 +52,7 @@ class FramePracownik extends FrameBase implements ActionListener {
             new AddPracownik();
         else if (zrodlo==ButtonAddKlient)
             new AddKlient();
-        else if (zrodlo==ButtonAddDostawca)
+        else if (zrodlo== ButtonDeleteDostawca)
             new AddDostawca();
         else if (zrodlo==ButtonAddZamowienie)
             new AddZamowienie();

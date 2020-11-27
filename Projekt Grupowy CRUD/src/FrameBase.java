@@ -4,7 +4,8 @@ import java.awt.event.ActionListener;
 abstract class FrameBase extends JFrame {
     JMenuBar menuBar;
     JButton ButtonAddPracownik, ButtonAddKlient, ButtonAddDostawca, ButtonAddZamowienie,
-            ButtonAddDostawe, ButtonAddProdukt;
+            ButtonAddDostawe, ButtonAddProdukt, ButtonDeletePracownik, ButtonDeleteKlient,
+            ButtonDeleteDostawca, ButtonDeleteZamowienie, ButtonDeleteDostawa, ButtonDeleteProdukt;
     JMenu Wyswietl,Zaawansowane;
     JMenuItem Pracownicy, Klienci, Dostawcy, Produkty, Zamowienia, Dostawy, ZarzadzanieUprawnieniami ;
 
@@ -32,6 +33,8 @@ abstract class FrameBase extends JFrame {
         Zamowienia.setAccelerator(KeyStroke.getKeyStroke("ctrl Z"));
         Produkty.setAccelerator(KeyStroke.getKeyStroke("ctrl M"));
         Dostawy.setAccelerator(KeyStroke.getKeyStroke("ctrl O"));
+
+
 
 
 
