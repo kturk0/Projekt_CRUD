@@ -15,6 +15,8 @@ go
 drop table if exists kategorie
 go
 drop table if exists zamowienia
+go
+drop table if exists mails
 
 create table klienci
 (
@@ -103,6 +105,16 @@ ilosc int,
 data_zamowienia date
 )
 go
+create table mails
+(
+id_mail int primary key identity,
+id_nadawcy int,
+id_odbiorcy int,
+title varchar(50),
+body varchar(5000),
+send_date date,
+stan bit
+)
 insert into klienci values
 ('Jan','Kowalski','1994-11-25'),
 ('Anna','Malinowska','1998-08-24'),
@@ -163,6 +175,10 @@ insert into zamowienia values
 (4,3,2,5,'2017-10-15'),
 (1,4,5,1,'2017-11-25'),
 (2,1,3,20,'2017-10-27')
+go
+insert into mails values
+(1,2,'Tytu³ testowy','Test tu jest tekst','2018-02-04',0),
+(3,2,'Tytu³ testowy 2','Test tu jest tekst2','2018-07-05',1)
 go
 SELECT SCOPE_IDENTITY()
 go

@@ -65,9 +65,9 @@ public class DeleteDostawa {
                 getDostawy.close();
 
                 Statement getProdukty = con.createStatement();
-                String getMebleQ = "select * from produkty "
+                String getProduktyQ = "select * from produkty "
                         + "where id_produkt = " + String.valueOf(idProduktu) ;
-                ResultSet wynik_Produkty = getProdukty.executeQuery(getMebleQ);
+                ResultSet wynik_Produkty = getProdukty.executeQuery(getProduktyQ);
                 wynik_Produkty.next();
                 int ilosc = wynik_Produkty.getInt("stan_na_magazynie");
                 getProdukty.close();

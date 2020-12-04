@@ -39,23 +39,22 @@ public class AddDostawa {
 
             List<String> lista2=new ArrayList<String>();
             Statement zapytanie2 = con.createStatement();
-            String sql2="select * from meble";
+            String sql2="select * from produkty";
             ResultSet wynik_sql2 = zapytanie2.executeQuery(sql2);
             while(wynik_sql2.next()) {
                 String t=wynik_sql2.getString("nazwa");
                 lista2.add(t);
             }
-            String[] mebleNazwy = new String[lista2.size()];
-            mebleNazwy = lista2.toArray(mebleNazwy);
-            JComboBox mebleBox = new JComboBox(mebleNazwy);
-            mebleBox.setSelectedIndex(0);
+            String[] produktyNazwy = new String[lista2.size()];
+            produktyNazwy = lista2.toArray(produktyNazwy);
+            JComboBox produktyBox = new JComboBox(produktyNazwy);
+            produktyBox.setSelectedIndex(0);
             zapytanie2.close();
 
             myPanel.add(new JLabel("DOSTAWCA:"));
             myPanel.add(dostawcaBox);
-            //  myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-            myPanel.add(new JLabel("MEBEL:"));
-            myPanel.add(mebleBox);
+            myPanel.add(new JLabel("PRODUKT:"));
+            myPanel.add(produktyBox);
             myPanel.add(new JLabel("ILOŚĆ:"));
             myPanel.add(iloscField);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -73,38 +72,38 @@ public class AddDostawa {
                 getDostawca.close();
 
 
-                String selected_Mebel = lista2.get(mebleBox.getSelectedIndex());
-                Statement getMebel= con.createStatement();
-                String getMebelQ = "select * from meble "
-                        + "where nazwa = '" + selected_Mebel + "'";
-                ResultSet wynik_Mebel = getMebel.executeQuery(getMebelQ);
-                wynik_Mebel.next();
-                int idMebla = wynik_Mebel.getInt("id_mebel");
-                getMebel.close();
+                String selected_Produkt = lista2.get(produktyBox.getSelectedIndex());
+                Statement getProdukt= con.createStatement();
+                String getProduktQ = "select * from produkty "
+                        + "where nazwa = '" + selected_Produkt + "'";
+                ResultSet wynik_Produkt = getProdukt.executeQuery(getProduktQ);
+                wynik_Produkt.next();
+                int idProduktu = wynik_Produkt.getInt("id_produkt");
+                getProdukt.close();
 
                 String danePrac = "insert into dostawy values (?, ?, ?, ?)";
                 PreparedStatement prep = con.prepareStatement(danePrac);
                 prep.setInt(1, idDostawcy);
-                prep.setInt(2, idMebla);
+                prep.setInt(2, idProduktu);
                 prep.setInt(3, Integer.parseInt(iloscField.getText()));
                 prep.setString(4, date);
                 prep.executeUpdate();
                 prep.close();
 
                 Statement check = con.createStatement();
-                String checkQ = "select stan_na_magazynie from meble "
-                        + "where id_mebel = " + String.valueOf(idMebla);
+                String checkQ = "select stan_na_magazynie from produkty "
+                        + "where id_produkt = " + String.valueOf(idProduktu);
                 ResultSet wynik_checkQ = check.executeQuery(checkQ);
                 wynik_checkQ.next();
                 int StanPoZamowieniu = Integer.parseInt(wynik_checkQ.getString("stan_na_magazynie")) + Integer.parseInt(iloscField.getText());
                 check.close();
 
-                String change = "UPDATE meble "
+                String change = "UPDATE produkty "
                         + "SET stan_na_magazynie = " + String.valueOf(StanPoZamowieniu)
-                        + " WHERE id_mebel = " + String.valueOf(idMebla);
-                PreparedStatement changeMeble = con.prepareStatement(change);
-                changeMeble.executeUpdate();
-                changeMeble.close();
+                        + " WHERE id_produkt = " + String.valueOf(idProduktu);
+                PreparedStatement changeProdukty = con.prepareStatement(change);
+                changeProdukty.executeUpdate();
+                changeProdukty.close();
                 JFrame msgFrame = new JFrame();
                 msgFrame.setLocation(400, 400);
                 JOptionPane.showMessageDialog(msgFrame, "DODANO DOSTAWĘ",

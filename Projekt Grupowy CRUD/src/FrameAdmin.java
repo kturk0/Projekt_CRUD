@@ -1,14 +1,16 @@
 import Add.*;
 import Delete.*;
+import Mail.MailFrame;
 import Views.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class FrameAdmin extends FrameBase implements ActionListener {
 
-
+    JButton ButtonMails;
     public FrameAdmin() {
         super();
         Wyswietl.add(Pracownicy);
@@ -86,6 +88,11 @@ class FrameAdmin extends FrameBase implements ActionListener {
         add(ButtonDeleteDostawa);
         ButtonDeleteDostawa.addActionListener(this);
 
+        ButtonMails=new JButton("MAILS");
+        ButtonMails.setBounds(220,275,190,30);
+        add(ButtonMails);
+        ButtonMails.addActionListener(this);
+
         setJMenuBar(menuBar);
         menuBar.add(Wyswietl);
         menuBar.add(Zaawansowane);
@@ -132,6 +139,14 @@ class FrameAdmin extends FrameBase implements ActionListener {
             new DeleteZamowienie();
         else if (zrodlo==ButtonDeleteDostawa)
             new DeleteDostawa();
+        else if (zrodlo==ButtonMails) {
+            try {
+                MailFrame fr = new MailFrame();
+                fr.setVisible(true);
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
+            }
+        }
 
 
 

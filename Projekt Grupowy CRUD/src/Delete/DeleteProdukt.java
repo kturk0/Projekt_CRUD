@@ -20,26 +20,26 @@ public class DeleteProdukt {
 
             List<String> lista=new ArrayList<String>();
             Statement zapytanie = con.createStatement();
-            String sql="select * from meble";
+            String sql="select * from produkty";
             ResultSet wynik_sql = zapytanie.executeQuery(sql);
             while(wynik_sql.next()) {
-                String t=wynik_sql.getString("id_mebel");
+                String t=wynik_sql.getString("id_produkt");
                 String z=wynik_sql.getString("nazwa");
 
                 lista.add(t);
                 lista.add(z);
             }
             String[] productNames = new String[lista.size()/2];
-            String idM = "un";
-            String nazwaM;
+            String idP = "un";
+            String nazwaP;
             for(int i = 0; i < lista.size(); i++)
             {
                 if(i%2 == 0)
-                    idM = lista.get(i);
+                    idP = lista.get(i);
                 else if (i%2 == 1)
                 {
-                    nazwaM = lista.get(i);
-                    productNames[i/2] = idM + " / " + nazwaM;
+                    nazwaP = lista.get(i);
+                    productNames[i/2] = idP + " / " + nazwaP;
                 }
             }
             JComboBox produktyBox = new JComboBox(productNames);
@@ -115,9 +115,9 @@ public class DeleteProdukt {
                 {
                     String del = "DELETE from produkty "
                             + " WHERE id_produkt = " + selected_Id;
-                    PreparedStatement delMeb = con.prepareStatement(del);
-                    delMeb.executeUpdate();
-                    delMeb.close();
+                    PreparedStatement delPr = con.prepareStatement(del);
+                    delPr.executeUpdate();
+                    delPr.close();
 
                     JFrame msgFrame = new JFrame();
                     msgFrame.setLocation(400, 400);
