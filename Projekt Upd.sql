@@ -127,7 +127,7 @@ insert into admini values
 
 go
 insert into pracownicy values
-('Marcin','Brzozowski','1975-09-11',3005.50,'p','p', 1,0),
+('Marcin','Brzozowski','1975-09-11',3005.50,'p','p', 1,2),
 ('Marta','Cielecka','1997-04-29',4500.20,'pr2','prac2', 3,2),
 ('Wojciech','Malinowski','1994-03-25',3603.90,'pr3','prac3', 2,1),
 ('Krzysztof','Jankowski','1988-12-03',6220.40,'pr4','prac4', 4,1)
@@ -177,8 +177,10 @@ insert into zamowienia values
 (2,1,3,20,'2017-10-27')
 go
 insert into mails values
-(1,2,'Tytu³ testowy','Test tu jest tekst','2018-02-04',0),
-(3,2,'Tytu³ testowy 2','Test tu jest tekst2','2018-07-05',1)
+(1,2,'Tytu³ testowy','Test tu jest tekst. One two, three.','2018-02-04',0),
+(3,2,'Tytu³ testowy 2','Test tu jest tekst2. Awaria w sekcji czwartej.','2018-07-05',1),
+(3,2,'Tytu³ testowy 3','Test tu jest tekst3. Wait for delivery.','2018-07-05',1),
+(2,4,'Uwaga!','Test tu jest tekst3. Wait for delivery. Nowa wiadomoœæ. Set the delivery for tommorow.','2018-07-05',1)
 go
 SELECT SCOPE_IDENTITY()
 go

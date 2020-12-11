@@ -1,16 +1,14 @@
 import Add.*;
 import Delete.*;
-import Mail.MailFrame;
+import Mail.InboxPanel;
 import Views.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class FrameAdmin extends FrameBase implements ActionListener {
 
-    JButton ButtonMails;
     public FrameAdmin() {
         super();
         Wyswietl.add(Pracownicy);
@@ -88,10 +86,15 @@ class FrameAdmin extends FrameBase implements ActionListener {
         add(ButtonDeleteDostawa);
         ButtonDeleteDostawa.addActionListener(this);
 
-        ButtonMails=new JButton("MAILS");
-        ButtonMails.setBounds(220,275,190,30);
-        add(ButtonMails);
-        ButtonMails.addActionListener(this);
+        ButtonInbox =new JButton("INBOX");
+        ButtonInbox.setBounds(180,280,150,30);
+        add(ButtonInbox);
+        ButtonInbox.addActionListener(this);
+
+        ButtonArchive =new JButton("ARCHIVE");
+        ButtonArchive.setBounds(180,320,150,30);
+        add(ButtonArchive);
+        ButtonArchive.addActionListener(this);
 
         setJMenuBar(menuBar);
         menuBar.add(Wyswietl);
@@ -139,12 +142,70 @@ class FrameAdmin extends FrameBase implements ActionListener {
             new DeleteZamowienie();
         else if (zrodlo==ButtonDeleteDostawa)
             new DeleteDostawa();
-        else if (zrodlo==ButtonMails) {
-            try {
-                MailFrame fr = new MailFrame();
-                fr.setVisible(true);
-            } catch (ClassNotFoundException classNotFoundException) {
-                classNotFoundException.printStackTrace();
+        else if (zrodlo== ButtonInbox) {
+            switch(frameExpansionState) {
+                case HIDDEN:
+                   try {
+                       setSize(1200, 700);
+                       inboxPanel = new InboxPanel(-1, 0);
+                       add(inboxPanel);
+                       this.revalidate();
+                       this.repaint();
+                       frameExpansionState = FrameExpansionState.INBOX;
+                   } catch (ClassNotFoundException classNotFoundException) {
+                      classNotFoundException.printStackTrace();
+                   }
+                   break;
+                case INBOX:
+                    setSize(500, 700);
+                    remove(inboxPanel);
+                    this.revalidate();
+                    this.repaint();
+                    frameExpansionState = FrameExpansionState.HIDDEN;
+                    break;
+                case ARCHIVE:
+                    try {
+                        inboxPanel = new InboxPanel(-1, 0);
+                        this.revalidate();
+                        this.repaint();
+                        frameExpansionState = FrameExpansionState.INBOX;
+                        break;
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+            }
+        }
+        else if (zrodlo== ButtonArchive) {
+            switch(frameExpansionState) {
+                case HIDDEN:
+                    try {
+                        setSize(1200, 700);
+                        inboxPanel = new InboxPanel(-1, 1);
+                        add(inboxPanel);
+                        this.revalidate();
+                        this.repaint();
+                        frameExpansionState = FrameExpansionState.ARCHIVE;
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+                    break;
+                case ARCHIVE:
+                    setSize(500, 700);
+                    remove(inboxPanel);
+                    this.revalidate();
+                    this.repaint();
+                    frameExpansionState = FrameExpansionState.HIDDEN;
+                    break;
+                case INBOX:
+                    try {
+                        inboxPanel = new InboxPanel(-1, 1);
+                        this.revalidate();
+                        this.repaint();
+                        frameExpansionState = FrameExpansionState.INBOX;
+                        break;
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
             }
         }
 
