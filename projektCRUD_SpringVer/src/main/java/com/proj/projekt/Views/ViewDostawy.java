@@ -1,7 +1,11 @@
 package com.proj.projekt.Views;
 
+import com.proj.projekt.Chart.ChartDostawy;
+import com.proj.projekt.Chart.ChartZamowienia;
+
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,9 +62,10 @@ public class ViewDostawy extends Wyswietlacz{
             setTable();
             sp=new JScrollPane(jt);
             frame.setTitle("Dostawy");
+            frame.add(new ChartDostawy(), BorderLayout.PAGE_START);
             frame.add(sp);
             frame.setLocation(650,50);
-            frame.setSize(700,350);
+            frame.setSize(700,650);
             frame.setVisible(true);
             con.close();
         }

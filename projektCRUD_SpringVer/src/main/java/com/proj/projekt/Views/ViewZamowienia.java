@@ -1,6 +1,7 @@
 package com.proj.projekt.Views;
 
 import com.proj.projekt.Chart.Barchart;
+import com.proj.projekt.Chart.ChartZamowienia;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
@@ -73,10 +74,10 @@ public class ViewZamowienia extends Wyswietlacz {
             setTable();
             JScrollPane sp=new JScrollPane(jt);
             frame.setTitle("Zamówienia");
-            frame.add(new Barchart(), BorderLayout.PAGE_START);
+            frame.add(new ChartZamowienia(), BorderLayout.PAGE_START);
             frame.add(sp);
             frame.setLocation(690,50);
-            frame.setSize(700,600);
+            frame.setSize(700,650);
             frame.setVisible(true);
             con.close();
         }

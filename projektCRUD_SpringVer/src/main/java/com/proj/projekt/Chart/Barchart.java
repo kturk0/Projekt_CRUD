@@ -10,6 +10,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.*;
@@ -17,12 +18,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Barchart extends JPanel {
+public abstract class Barchart extends JPanel {
     Connection con;
     int currentMonth, currentYear, daysInSelectedMonth;
     JComboBox<String> monthBox = new JComboBox<>();
     JSpinner yearSpinner;
+    SpinnerModel model;
     JFreeChart chart;
+    JButton leftButton = new JButton("<");
+    JButton rightButton = new JButton(">");
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
     public Barchart() throws ClassNotFoundException, SQLException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -44,13 +48,38 @@ public class Barchart extends JPanel {
         });
         monthBox.setFocusable(false);
         int initYear = Calendar.getInstance().get(Calendar.YEAR);
-        SpinnerModel model = new SpinnerNumberModel(initYear, initYear - 100, initYear + 100, 1);
+        model = new SpinnerNumberModel(initYear, initYear - 100, initYear + 100, 1);
         yearSpinner = new JSpinner(model);
         yearSpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent evt) {
                 try {
                     yearChange(evt);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+       // leftButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        leftButton.setRequestFocusEnabled(false);
+        leftButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    leftButtonClicked(evt);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+
+       // rightButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        rightButton.setRequestFocusEnabled(false);
+        rightButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    rightButtonClicked(evt);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -71,6 +100,33 @@ public class Barchart extends JPanel {
         updateDataset();
     }
 
+    private void leftButtonClicked(ActionEvent evt) throws SQLException {
+        if (currentMonth == 0) {
+            currentYear--;
+            currentMonth = 11;
+            yearSpinner.setValue(model.getPreviousValue());
+        }
+        else {
+            currentMonth--;
+        }
+        monthBox.setSelectedIndex(currentMonth);
+        setDaysInMonth();
+        updateDataset();
+    }
+
+    private void rightButtonClicked(ActionEvent evt) throws SQLException {
+        if (currentMonth == 11) {
+            currentYear++;
+            currentMonth = 0;
+            yearSpinner.setValue(model.getNextValue());
+        } else {
+            currentMonth++;
+        }
+        monthBox.setSelectedIndex(currentMonth);
+        setDaysInMonth();
+        updateDataset();
+    }
+
     public void setDaysInMonth()
     {
         int day;
@@ -87,29 +143,7 @@ public class Barchart extends JPanel {
         daysInSelectedMonth = day;
     }
 
-    public void showContent() throws SQLException {
-        updateDataset();
-        chart = ChartFactory.createBarChart(" ", "Dzień", "Ilość zamówień",
-                dataset, PlotOrientation.VERTICAL, false, true, false);
-        this.add(monthBox);
-        this.add(yearSpinner);
-        ChartPanel chartPanel = new ChartPanel(chart);
-        this.add(chartPanel);
-    }
+    public abstract void showContent() throws SQLException;
 
-    private void updateDataset() throws SQLException {
-        dataset.clear();
-        Statement query = con.createStatement();
-        String sql="SELECT DAY(data_zamowienia) FROM zamowienia" +
-                " WHERE MONTH(data_zamowienia) = "+ (currentMonth + 1) +" AND YEAR(data_zamowienia) = " + currentYear;
-        ResultSet sqlResult = query.executeQuery(sql);
-        List<Integer> deliveriesInMonth = new ArrayList<>();
-        for(int i = 0 ;  i < daysInSelectedMonth; i++)
-            deliveriesInMonth.add(0);
-        while(sqlResult.next())
-            deliveriesInMonth.set(sqlResult.getInt(1) -1, deliveriesInMonth.get(sqlResult.getInt(1) -1) + 1);
-        for (int i = 1; i <= daysInSelectedMonth; i++) {
-            dataset.setValue(deliveriesInMonth.get(i-1), "Marks", "" + i);
-        }
-    }
+    public abstract void updateDataset() throws SQLException;
 }

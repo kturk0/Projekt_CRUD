@@ -40,7 +40,7 @@ abstract class FrameBase extends JFrame {
 
         menuBar=new JMenuBar();
 
-        Wyswietl=new JMenu("Wyświetl"); //utworzenie pierwszej opcji menu
+        Wyswietl=new JMenu("Wyświetl");
         Pracownicy=new JMenuItem("Pracownicy",'P');
         Klienci=new JMenuItem("Klienci",'K');
         Dostawcy=new JMenuItem("Dostawcy",'D');
@@ -54,6 +54,32 @@ abstract class FrameBase extends JFrame {
         Zamowienia.setAccelerator(KeyStroke.getKeyStroke("ctrl Z"));
         Produkty.setAccelerator(KeyStroke.getKeyStroke("ctrl M"));
         Dostawy.setAccelerator(KeyStroke.getKeyStroke("ctrl O"));
+
+        ButtonAddPracownik =new JButton("Dodaj nowego pracownika");
+        ButtonAddPracownik.setFocusable(false);
+        ButtonAddKlient =new JButton("Dodaj nowego klienta");
+        ButtonAddKlient.setFocusable(false);
+        ButtonAddDostawca =new JButton("Dodaj nowego dostawcę");
+        ButtonAddDostawca.setFocusable(false);
+        ButtonAddProdukt=new JButton("Dodaj produkt");
+        ButtonAddProdukt.setFocusable(false);
+        ButtonAddZamowienie =new JButton("Dodaj zamówienie");
+        ButtonAddZamowienie.setFocusable(false);
+        ButtonAddDostawe=new JButton("Dodaj dostawę");
+        ButtonAddDostawe.setFocusable(false);
+
+        ButtonDeletePracownik=new JButton("Usuń pracownika");
+        ButtonDeletePracownik.setFocusable(false);
+        ButtonDeleteKlient=new JButton("Usuń klienta");
+        ButtonDeleteKlient.setFocusable(false);
+        ButtonDeleteDostawca =new JButton("Usuń dostawcę");
+        ButtonDeleteDostawca.setFocusable(false);
+        ButtonDeleteProdukt=new JButton("Usuń produkt");
+        ButtonDeleteProdukt.setFocusable(false);
+        ButtonDeleteZamowienie=new JButton("Usuń zamówienie");
+        ButtonDeleteZamowienie.setFocusable(false);
+        ButtonDeleteDostawa=new JButton("Usuń dostawę");
+        ButtonDeleteDostawa.setFocusable(false);
 
 
 

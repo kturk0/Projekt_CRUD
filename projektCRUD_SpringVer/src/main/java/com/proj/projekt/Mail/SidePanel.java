@@ -31,9 +31,9 @@ public class SidePanel extends JPanel {
             if(userID == -1)
                 sql="select * from mails";
             else if(type == 0)
-                sql="select * from mails where id_odbiorcy = " + userID;
+                sql="select * from mails where id_odbiorcy = " + userID + " AND stan = 1";
             else
-                sql="select * from mails where id_nadawcy = " + userID;
+                sql="select * from mails where id_nadawcy = " + userID + " AND stan = 1";
             ResultSet wynik_sql = query.executeQuery(sql);
             JToggleButton newButton;
             while(wynik_sql.next()) {

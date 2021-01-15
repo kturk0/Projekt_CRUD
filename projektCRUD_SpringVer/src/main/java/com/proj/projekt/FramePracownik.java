@@ -40,53 +40,41 @@ class FramePracownik extends FrameBase implements ActionListener {
         menuBar.add(Wyswietl);
 
         if(userLevel > 0){
-            ButtonAddPracownik =new JButton("Dodaj nowego pracownika");
             ButtonAddPracownik.setBounds(10,10,190,30);
             add(ButtonAddPracownik);
             ButtonAddPracownik.addActionListener(this);
-            ButtonAddKlient =new JButton("Dodaj nowego klienta");
             ButtonAddKlient.setBounds(10,50,190,30);
             add(ButtonAddKlient);
             ButtonAddKlient.addActionListener(this);
-            ButtonAddDostawca =new JButton("Dodaj nowego dostawcę");
             ButtonAddDostawca.setBounds(10,90,190,30);
             add(ButtonAddDostawca);
             ButtonAddDostawca.addActionListener(this);
-            ButtonAddProdukt=new JButton("Dodaj produkt");
             ButtonAddProdukt.setBounds(10,130,190,30);
             add(ButtonAddProdukt);
             ButtonAddProdukt.addActionListener(this);
-            ButtonAddZamowienie =new JButton("Dodaj zamówienie");
             ButtonAddZamowienie.setBounds(10,200,190,30);
             add(ButtonAddZamowienie);
             ButtonAddZamowienie.addActionListener(this);
-            ButtonAddDostawe=new JButton("Dodaj dostawę");
             ButtonAddDostawe.setBounds(10,240,190,30);
             add(ButtonAddDostawe);
             ButtonAddDostawe.addActionListener(this);
         }
         if(userLevel == 2){
-            ButtonDeletePracownik=new JButton("Usuń pracownika");
             ButtonDeletePracownik.setBounds(220,10,190,30);
             add(ButtonDeletePracownik);
             ButtonDeletePracownik.addActionListener(this);
-            ButtonDeleteKlient=new JButton("Usuń klienta");
             ButtonDeleteKlient.setBounds(220,50,190,30);
             add(ButtonDeleteKlient);
             ButtonDeleteKlient.addActionListener(this);
-            ButtonDeleteDostawca =new JButton("Usuń dostawcę");
             ButtonDeleteDostawca.setBounds(220,90,190,30);
             add(ButtonDeleteDostawca);
             ButtonDeleteDostawca.addActionListener(this);
-            ButtonDeleteProdukt=new JButton("Usuń produkt");
             ButtonDeleteProdukt.setBounds(220,130,190,30);
             add(ButtonDeleteProdukt);
             ButtonDeleteProdukt.addActionListener(this);
-            ButtonDeleteZamowienie=new JButton("Usuń zamówienie");
             ButtonDeleteZamowienie.setBounds(220,200,190,30);
             add(ButtonDeleteZamowienie);
             ButtonDeleteZamowienie.addActionListener(this);
-            ButtonDeleteDostawa=new JButton("Usuń dostawę");
             ButtonDeleteDostawa.setBounds(220,240,190,30);
             add(ButtonDeleteDostawa);
             ButtonDeleteDostawa.addActionListener(this);
@@ -94,16 +82,19 @@ class FramePracownik extends FrameBase implements ActionListener {
 
         ButtonSend =new JButton("SEND");
         ButtonSend.setBounds(140,340,150,30);
+        ButtonSend.setFocusable(false);
         add(ButtonSend);
         ButtonSend.addActionListener(this);
 
         ButtonInbox =new JButton("INBOX");
         ButtonInbox.setBounds(140,380,150,30);
+        ButtonInbox.setFocusable(false);
         add(ButtonInbox);
         ButtonInbox.addActionListener(this);
 
         ButtonArchive =new JButton("ARCHIVE");
         ButtonArchive.setBounds(140,420,150,30);
+        ButtonArchive.setFocusable(false);
         add(ButtonArchive);
         ButtonArchive.addActionListener(this);
 
