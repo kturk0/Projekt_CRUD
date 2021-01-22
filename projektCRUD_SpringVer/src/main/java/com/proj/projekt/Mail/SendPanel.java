@@ -30,7 +30,7 @@ public class SendPanel extends JPanel implements ActionListener {
 
             lista=new ArrayList<String>();
             Statement query = con.createStatement();
-            String sql="select * from pracownicy";
+            String sql="select * from pracownicy where NOT id_pracownik = " + userID;
             ResultSet queryResult = query.executeQuery(sql);
             while(queryResult.next()) {
                 String t=queryResult.getString("id_pracownik");
@@ -116,7 +116,7 @@ public class SendPanel extends JPanel implements ActionListener {
                 prep.setString(3, titleArea.getText());
                 prep.setString(4, textArea.getText());
                 prep.setString(5, formatter.format(currentDate));
-                prep.setString(6, "0");
+                prep.setString(6, "1");
 
                 prep.executeUpdate();
 

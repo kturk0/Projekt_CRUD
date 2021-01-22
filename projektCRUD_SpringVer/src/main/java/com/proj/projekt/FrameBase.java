@@ -29,7 +29,7 @@ abstract class FrameBase extends JFrame {
     }
 
     public FrameBase(){
-        setSize(500, 700);
+        setSize(440, 650);
         setLocation(100, 100);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

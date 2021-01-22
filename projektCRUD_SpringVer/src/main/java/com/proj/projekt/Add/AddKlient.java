@@ -1,11 +1,14 @@
 package com.proj.projekt.Add;
 
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 public class AddKlient {
     Connection con;
@@ -19,7 +22,7 @@ public class AddKlient {
 
             JTextField imieField = new JTextField(5);
             JTextField nazwiskoField = new JTextField(5);
-            JTextField data_urField = new JTextField(5);
+            JDateChooser dateChooser = new JDateChooser();
             JPanel myPanel = new JPanel();
             myPanel.setLayout(new GridLayout(0, 1));
             myPanel.add(new JLabel("IMIĘ:"));
@@ -28,15 +31,16 @@ public class AddKlient {
             myPanel.add(new JLabel("NAZWISKO:"));
             myPanel.add(nazwiskoField);
             myPanel.add(new JLabel("DATA UR (YYYY-MM-DD):"));
-            myPanel.add(data_urField);
+            myPanel.add(dateChooser);
 
             int wynik = JOptionPane.showConfirmDialog(null, myPanel, "Wpisz dane nowego klienta", JOptionPane.OK_CANCEL_OPTION);
             if (wynik == JOptionPane.OK_OPTION) {
-                String danePrac = "insert into klienci values (?, ?, ?, ? , ?)";
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String danePrac = "insert into klienci values (?, ?, ?)";
                 PreparedStatement prep = con.prepareStatement(danePrac);
                 prep.setString(1, imieField.getText());
                 prep.setString(2, nazwiskoField.getText());
-                prep.setString(3, data_urField.getText());
+                prep.setString(3, formatter.format(dateChooser.getDate()));
 
                 prep.executeUpdate();
                 JFrame msgFrame = new JFrame();

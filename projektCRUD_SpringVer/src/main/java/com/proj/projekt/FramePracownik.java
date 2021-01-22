@@ -40,9 +40,6 @@ class FramePracownik extends FrameBase implements ActionListener {
         menuBar.add(Wyswietl);
 
         if(userLevel > 0){
-            ButtonAddPracownik.setBounds(10,10,190,30);
-            add(ButtonAddPracownik);
-            ButtonAddPracownik.addActionListener(this);
             ButtonAddKlient.setBounds(10,50,190,30);
             add(ButtonAddKlient);
             ButtonAddKlient.addActionListener(this);
@@ -60,9 +57,6 @@ class FramePracownik extends FrameBase implements ActionListener {
             ButtonAddDostawe.addActionListener(this);
         }
         if(userLevel == 2){
-            ButtonDeletePracownik.setBounds(220,10,190,30);
-            add(ButtonDeletePracownik);
-            ButtonDeletePracownik.addActionListener(this);
             ButtonDeleteKlient.setBounds(220,50,190,30);
             add(ButtonDeleteKlient);
             ButtonDeleteKlient.addActionListener(this);
