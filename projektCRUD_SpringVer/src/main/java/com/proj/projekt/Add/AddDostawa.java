@@ -2,22 +2,17 @@ package com.proj.projekt.Add;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AddDostawa {
-    Connection con;
-    public AddDostawa()
-    {
+public class AddDostawa extends AddClass {
+    public AddDostawa() throws SQLException, IOException, ClassNotFoundException {
+        super();
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"
-                    + "localhost:1433;databaseName=dbo;"
-                    + "user=sa;password=haslosql;");
-
             JTextField iloscField = new JTextField(5);
 
             JPanel myPanel = new JPanel();
@@ -120,8 +115,6 @@ public class AddDostawa {
             JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
                     "Error", JOptionPane.ERROR_MESSAGE);
 
-        } catch (ClassNotFoundException error_sterownik) {
-            System.out.println("Brak sterownika");
         }
     }
 }

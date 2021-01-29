@@ -4,20 +4,15 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteDostawa {
-    Connection con;
-    public DeleteDostawa()
-    {
+public class DeleteDostawa extends DeleteClass {
+    public DeleteDostawa() throws SQLException, IOException, ClassNotFoundException {
+        super();
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"
-                    + "localhost:1433;databaseName=dbo;"
-                    + "user=sa;password=haslosql;");
-
             List<String> lista=new ArrayList<String>();
             Statement zapytanie = con.createStatement();
             String sql="select * from dostawy";
@@ -106,8 +101,6 @@ public class DeleteDostawa {
             JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
                     "Error", JOptionPane.ERROR_MESSAGE);
 
-        } catch (ClassNotFoundException error_sterownik) {
-            System.out.println("Brak sterownika");
         }
     }
 }

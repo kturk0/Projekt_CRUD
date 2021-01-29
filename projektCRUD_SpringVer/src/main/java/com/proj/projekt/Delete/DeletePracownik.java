@@ -3,20 +3,15 @@ package com.proj.projekt.Delete;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeletePracownik {
-    Connection con;
-    public DeletePracownik()
-    {
+public class DeletePracownik extends DeleteClass {
+    public DeletePracownik() throws SQLException, IOException, ClassNotFoundException {
+        super();
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"
-                    + "localhost:1433;databaseName=dbo;"
-                    + "user=sa;password=haslosql;");
-
             List<String> lista=new ArrayList<String>();
             Statement zapytanie = con.createStatement();
             String sql="select * from pracownicy";
@@ -79,6 +74,14 @@ public class DeletePracownik {
                     delPra.executeUpdate();
                     delPra.close();
 
+                    String upd = "update mails set stan = ? where id_nadawcy = ? or id_odbiorcy = ?";
+                    PreparedStatement updMail = con.prepareStatement(upd);
+                    updMail.setInt(1,0);
+                    updMail.setInt(2,Integer.parseInt(selected_Id));
+                    updMail.setInt(3,Integer.parseInt(selected_Id));
+                    updMail.executeUpdate();
+                    updMail.close();
+
                     JFrame msgFrame = new JFrame();
                     msgFrame.setLocation(400, 400);
                     JOptionPane.showMessageDialog(msgFrame, "USUNIĘTO PRACOWNIKA",
@@ -98,8 +101,6 @@ public class DeletePracownik {
             JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
                     "Error", JOptionPane.ERROR_MESSAGE);
 
-        } catch (ClassNotFoundException error_sterownik) {
-            System.out.println("Brak sterownika");
         }
     }
 }

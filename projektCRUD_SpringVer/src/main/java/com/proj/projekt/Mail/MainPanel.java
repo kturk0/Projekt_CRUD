@@ -3,7 +3,10 @@ package com.proj.projekt.Mail;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
 public class MainPanel extends JPanel {
     Connection con;
@@ -13,15 +16,22 @@ public class MainPanel extends JPanel {
     {
         setLayout(new BorderLayout());
         if(mailID < 0) {
-            titleLabel = new JLabel("Nothing to show!",SwingConstants.CENTER);
+            titleLabel = new JLabel("Brak wiadomości!",SwingConstants.CENTER);
             add(titleLabel, BorderLayout.CENTER);
         }
         else {
             try {
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                con = DriverManager.getConnection("jdbc:sqlserver://"
-                        + "localhost:1433;databaseName=dbo;"
-                        + "user=sa;password=haslosql;");
+                Properties prop=new Properties();
+                InputStream in = getClass().getClassLoader().getResourceAsStream("application.properties");
+                prop.load(in);
+                in.close();
+
+                String drivers = prop.getProperty("spring.datasource.driverClassName");
+                String connectionURL = prop.getProperty("spring.datasource.url");
+                String username = prop.getProperty("spring.datasource.username");
+                String password = prop.getProperty("spring.datasource.password");
+                Class.forName(drivers);
+                con= DriverManager.getConnection(connectionURL,username,password);
                 Statement query = con.createStatement();
                 String qr = "select * from mails"
                         + " where id_mail = " + mailID;
@@ -78,6 +88,8 @@ public class MainPanel extends JPanel {
                         "Error", JOptionPane.ERROR_MESSAGE);
             } catch (ClassNotFoundException error_sterownik) {
                 System.out.println("Brak sterownika");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class AddDostawca extends JPanel implements ActionListener {
-    Connection con;
+public class AddDostawca extends AddClass implements ActionListener {
     String[] adresyNazwy;
     java.util.List<String> listaA;
 
@@ -28,23 +28,23 @@ public class AddDostawca extends JPanel implements ActionListener {
 
 
     Boolean checker = true;
-    public AddDostawca(){
+    public AddDostawca() throws SQLException, IOException, ClassNotFoundException {
+        super();
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"
-                    + "localhost:1433;databaseName=dbo;"
-                    + "user=sa;password=haslosql;");
+
 
             JTextField nazwaField = new JTextField(5);
             JTextField stawkaField = new JTextField(5);
             adresGetter();
 
             setLayout(new GridLayout(0, 2));
-            this.setPreferredSize(new Dimension(300, 270));
+            this.setPreferredSize(new Dimension(300, 200));
             add(new JLabel("NAZWA:"));
             add(nazwaField);
             add(new JLabel("STAWKA ZA KM:"));
             add(stawkaField);
+            r1.setFocusable(false);
+            r2.setFocusable(false);
             r1.setBounds(75,50,100,30);
             r2.setBounds(75,100,100,30);
             ButtonGroup bg=new ButtonGroup();
@@ -122,22 +122,13 @@ public class AddDostawca extends JPanel implements ActionListener {
                 }
             }
             con.close();
-        } catch (SQLException error_polaczenie) {
+        } catch (SQLException | NumberFormatException error_polaczenie) {
             System.out.println(error_polaczenie.getMessage());
             JFrame errorFrame = new JFrame();
             errorFrame.setLocation(400, 400);
             JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
                     "Error", JOptionPane.ERROR_MESSAGE);
 
-        } catch (NumberFormatException error) {
-            System.out.println(error.getMessage());
-            JFrame errorFrame = new JFrame();
-            errorFrame.setLocation(400, 400);
-            JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-
-        } catch (ClassNotFoundException error_sterownik) {
-            System.out.println("Brak sterownika");
         }
     }
     private void adresGetter(){

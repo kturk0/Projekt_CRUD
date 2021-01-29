@@ -1,28 +1,28 @@
 package com.proj.projekt.Add;
 
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
-public class AddKlient {
-    Connection con;
+public class AddKlient extends AddClass {
 
-    public AddKlient() {
+    public AddKlient() throws SQLException, IOException, ClassNotFoundException {
+        super();
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"
-                    + "localhost:1433;databaseName=dbo;"
-                    + "user=sa;password=haslosql;");
 
             JTextField imieField = new JTextField(5);
             JTextField nazwiskoField = new JTextField(5);
             JDateChooser dateChooser = new JDateChooser();
+            JTextFieldDateEditor editor = (JTextFieldDateEditor) dateChooser.getDateEditor();
+            editor.setEditable(false);
             JPanel myPanel = new JPanel();
             myPanel.setLayout(new GridLayout(0, 1));
             myPanel.add(new JLabel("IMIĘ:"));
@@ -50,21 +50,12 @@ public class AddKlient {
                 prep.close();
             }
             con.close();
-        } catch (SQLException error_polaczenie) {
+        } catch (SQLException | NumberFormatException error_polaczenie) {
             System.out.println(error_polaczenie.getMessage());
             JFrame errorFrame = new JFrame();
             errorFrame.setLocation(400, 400);
             JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
                     "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException error) {
-            System.out.println(error.getMessage());
-            JFrame errorFrame = new JFrame();
-            errorFrame.setLocation(400, 400);
-            JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-
-        } catch (ClassNotFoundException error_sterownik) {
-            System.out.println("Brak sterownika");
         }
     }
 }

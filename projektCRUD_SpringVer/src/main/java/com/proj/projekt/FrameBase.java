@@ -45,14 +45,14 @@ abstract class FrameBase extends JFrame {
         Klienci=new JMenuItem("Klienci",'K');
         Dostawcy=new JMenuItem("Dostawcy",'D');
         Zamowienia=new JMenuItem("Zamowienia",'Z');
-        Produkty=new JMenuItem("Meble",'M');
+        Produkty=new JMenuItem("Produkty",'R');
         Dostawy=new JMenuItem("Dostawy",'O');
 
         Pracownicy.setAccelerator(KeyStroke.getKeyStroke("ctrl P"));
         Klienci.setAccelerator(KeyStroke.getKeyStroke("ctrl K"));
         Dostawcy.setAccelerator(KeyStroke.getKeyStroke("ctrl D"));
         Zamowienia.setAccelerator(KeyStroke.getKeyStroke("ctrl Z"));
-        Produkty.setAccelerator(KeyStroke.getKeyStroke("ctrl M"));
+        Produkty.setAccelerator(KeyStroke.getKeyStroke("ctrl R"));
         Dostawy.setAccelerator(KeyStroke.getKeyStroke("ctrl O"));
 
         ButtonAddPracownik =new JButton("Dodaj nowego pracownika");

@@ -75,7 +75,7 @@ public class JPanelZamianaUprawnien {
             int wynik = JOptionPane.showConfirmDialog(null, myPanel, "MODYFIKACJA UPRAWNIEŃ", JOptionPane.OK_CANCEL_OPTION);
 
             if (wynik == JOptionPane.OK_OPTION) {
-                String selected_Id = lista.get(pracownicyBox.getSelectedIndex() * 3);
+                int selected_Id = Integer.parseInt(lista.get(pracownicyBox.getSelectedIndex() * 4));
                 String selected_Level = "0";
                 Enumeration<AbstractButton> buttons = bg.getElements();
                 AbstractButton button;

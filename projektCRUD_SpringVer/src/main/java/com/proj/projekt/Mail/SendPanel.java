@@ -1,13 +1,17 @@
 package com.proj.projekt.Mail;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class SendPanel extends JPanel implements ActionListener {
     Connection con;
@@ -23,10 +27,17 @@ public class SendPanel extends JPanel implements ActionListener {
         this.userID = userID;
         setLayout(null);
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"
-                    + "localhost:1433;databaseName=dbo;"
-                    + "user=sa;password=haslosql;");
+            Properties prop=new Properties();
+            InputStream in = getClass().getClassLoader().getResourceAsStream("application.properties");
+            prop.load(in);
+            in.close();
+
+            String drivers = prop.getProperty("spring.datasource.driverClassName");
+            String connectionURL = prop.getProperty("spring.datasource.url");
+            String username = prop.getProperty("spring.datasource.username");
+            String password = prop.getProperty("spring.datasource.password");
+            Class.forName(drivers);
+            con= DriverManager.getConnection(connectionURL,username,password);
 
             lista=new ArrayList<String>();
             Statement query = con.createStatement();
@@ -70,7 +81,10 @@ public class SendPanel extends JPanel implements ActionListener {
 
         } catch (ClassNotFoundException error_sterownik) {
             System.out.println("Brak sterownika");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        Border border = BorderFactory.createLineBorder(Color.BLACK);
         titleLabel = new JLabel("Tytuł : ");
         titleLabel.setBounds(20,20,50,30);
         recipentLabel = new JLabel("Do    : ");
@@ -78,6 +92,8 @@ public class SendPanel extends JPanel implements ActionListener {
         titleArea = new JTextArea();
         titleArea.setFont(titleArea.getFont().deriveFont(12f));
         titleArea.setBounds(70,20,300,30);
+        titleArea.setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(5, 10, 10, 10)));
         recipentBox.setBounds(70,60,300,30);
         recipentBox.setFocusable(false);
         textArea = new JTextArea();

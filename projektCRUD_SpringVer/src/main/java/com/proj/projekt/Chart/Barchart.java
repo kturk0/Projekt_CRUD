@@ -10,15 +10,22 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
 
 public abstract class Barchart extends JPanel {
+
+
+
     Connection con;
     int currentMonth, currentYear, daysInSelectedMonth;
     JComboBox<String> monthBox = new JComboBox<>();
@@ -28,11 +35,19 @@ public abstract class Barchart extends JPanel {
     JButton leftButton = new JButton("<");
     JButton rightButton = new JButton(">");
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-    public Barchart() throws ClassNotFoundException, SQLException {
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        con = DriverManager.getConnection("jdbc:sqlserver://"
-                + "localhost:1433;databaseName=dbo;"
-                + "user=sa;password=haslosql;");
+    public Barchart() throws ClassNotFoundException, SQLException, IOException {
+        this.setLayout(new BorderLayout());
+        Properties prop=new Properties();
+        InputStream in = getClass().getClassLoader().getResourceAsStream("application.properties");
+        prop.load(in);
+        in.close();
+
+        String drivers = prop.getProperty("spring.datasource.driverClassName");
+        String connectionURL = prop.getProperty("spring.datasource.url");
+        String username = prop.getProperty("spring.datasource.username");
+        String password = prop.getProperty("spring.datasource.password");
+        Class.forName(drivers);
+        con= DriverManager.getConnection(connectionURL,username,password);
         monthBox.setMaximumRowCount(12);
         String[] months = {"Styczeń","Luty","Marzec","Kwiecień","Maj","Czerwiec","Lipiec","Sierpień","Wrzesień","Październik","Listopad","Grudzień"};
         monthBox.setModel(new DefaultComboBoxModel<>(months));

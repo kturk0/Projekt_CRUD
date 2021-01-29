@@ -2,36 +2,31 @@ package com.proj.projekt.Add;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AddZamowienie {
-    Connection con;
-    public AddZamowienie()
-    {
+public class AddZamowienie extends AddClass {
+    public AddZamowienie(int id_pracownik) throws SQLException, IOException, ClassNotFoundException {
+        super();
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"
-                    + "localhost:1433;databaseName=dbo;"
-                    + "user=sa;password=haslosql;");
-
             JTextField iloscField = new JTextField(5);
 
             List<String> lista2=new ArrayList<String>();
             Statement zapytanie2 = con.createStatement();
-            String sql2="select * from meble";
+            String sql2="select * from produkty";
             ResultSet wynik_sql2 = zapytanie2.executeQuery(sql2);
             while(wynik_sql2.next()) {
                 String t=wynik_sql2.getString("nazwa");
                 lista2.add(t);
             }
-            String[] mebleNazwy = new String[lista2.size()];
-            mebleNazwy = lista2.toArray(mebleNazwy);
-            JComboBox mebleBox = new JComboBox(mebleNazwy);
-            mebleBox.setSelectedIndex(0);
+            String[] produktyNazwy = new String[lista2.size()];
+            produktyNazwy = lista2.toArray(produktyNazwy);
+            JComboBox produktyBox = new JComboBox(produktyNazwy);
+            produktyBox.setSelectedIndex(0);
             zapytanie2.close();
 
             List<String> listaK=new ArrayList<String>();
@@ -83,8 +78,7 @@ public class AddZamowienie {
             {
                 if(i%2 == 0)
                     imieP = listaP.get(i);
-                else if (i%2 ==1)
-                {
+                else {
                     nazwiskoP = listaP.get(i);
                     pracownicyNazwy[i/2] = imieP + " " + nazwiskoP;
                 }
@@ -99,10 +93,12 @@ public class AddZamowienie {
             myPanel.add(new JLabel("KLIENT:"));
             myPanel.add(klienciBox);
             //  myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-            myPanel.add(new JLabel("PRACOWNIK:"));
-            myPanel.add(pracownicyBox);
-            myPanel.add(new JLabel("MEBEL:"));
-            myPanel.add(mebleBox);
+            if(id_pracownik == 0) {
+                myPanel.add(new JLabel("PRACOWNIK:"));
+                myPanel.add(pracownicyBox);
+            }
+            myPanel.add(new JLabel("PRODUKT:"));
+            myPanel.add(produktyBox);
             myPanel.add(new JLabel("ILOŚĆ:"));
             myPanel.add(iloscField);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -111,18 +107,18 @@ public class AddZamowienie {
 
 
             if (wynik == JOptionPane.OK_OPTION) {
-                String selected_Mebel = lista2.get(mebleBox.getSelectedIndex());
-                Statement getMebel= con.createStatement();
-                String getMebelQ = "select * from meble "
-                        + "where nazwa = '" + selected_Mebel + "'";
-                ResultSet wynik_Mebel = getMebel.executeQuery(getMebelQ);
-                wynik_Mebel.next();
-                int idMebla = wynik_Mebel.getInt("id_mebel");
-                getMebel.close();
+                String selected_Produkt = lista2.get(produktyBox.getSelectedIndex());
+                Statement getProdukt= con.createStatement();
+                String getProduktQ = "select * from produkty "
+                        + "where nazwa = '" + selected_Produkt + "'";
+                ResultSet wynik_Produkt = getProdukt.executeQuery(getProduktQ);
+                wynik_Produkt.next();
+                int idProduktu = wynik_Produkt.getInt("id_produkt");
+                getProdukt.close();
 
                 Statement check = con.createStatement();
-                String checkQ = "select stan_na_magazynie from meble "
-                        + "where id_mebel = " + String.valueOf(idMebla);
+                String checkQ = "select stan_na_magazynie from produkty "
+                        + "where id_produkt = " + String.valueOf(idProduktu);
                 ResultSet wynik_checkQ = check.executeQuery(checkQ);
                 wynik_checkQ.next();
                 int StanPoZamowieniu = Integer.parseInt(wynik_checkQ.getString("stan_na_magazynie")) - Integer.parseInt(iloscField.getText());
@@ -136,33 +132,36 @@ public class AddZamowienie {
                 }
                 else
                 {
-                    String selected_Imie = listaP.get(pracownicyBox.getSelectedIndex()*2);
-                    String selected_Nazwisko = listaP.get(pracownicyBox.getSelectedIndex()*2 +1);
-                    Statement getPracownik= con.createStatement();
-                    String getPracownikQ = "select * from pracownicy "
-                            + "where imie = '" + selected_Imie + "' AND nazwisko = '" + selected_Nazwisko + "'";
-                    ResultSet wynik_Pracownik = getPracownik.executeQuery(getPracownikQ);
-                    wynik_Pracownik.next();
-                    int idPracownika = wynik_Pracownik.getInt("id_pracownik");
-                    getPracownik.close();
+                    int idPracownika = id_pracownik;
+                    if(id_pracownik > 0) {
+                        String selected_Imie = listaP.get(pracownicyBox.getSelectedIndex() * 2);
+                        String selected_Nazwisko = listaP.get(pracownicyBox.getSelectedIndex() * 2 + 1);
+                        Statement getPracownik = con.createStatement();
+                        String getPracownikQ = "select * from pracownicy "
+                                + "where imie = '" + selected_Imie + "' AND nazwisko = '" + selected_Nazwisko + "'";
+                        ResultSet wynik_Pracownik = getPracownik.executeQuery(getPracownikQ);
+                        wynik_Pracownik.next();
+                        idPracownika = wynik_Pracownik.getInt("id_pracownik");
+                        getPracownik.close();
+                    }
                     String idKlienta = listaK.get(klienciBox.getSelectedIndex()*3);
 
                     String danePrac = "insert into zamowienia values (?, ?, ?, ?, ?)";
                     PreparedStatement prep = con.prepareStatement(danePrac);
                     prep.setInt(1, Integer.parseInt(idKlienta));
                     prep.setInt(2, idPracownika);
-                    prep.setInt(3, idMebla);
+                    prep.setInt(3, idProduktu);
                     prep.setInt(4, Integer.parseInt(iloscField.getText()));
                     prep.setString(5, date);
                     prep.executeUpdate();
                     prep.close();
 
-                    String change = "UPDATE meble "
+                    String change = "UPDATE produkty "
                             + "SET stan_na_magazynie = " + String.valueOf(StanPoZamowieniu)
-                            + " WHERE id_mebel = " + String.valueOf(idMebla);
-                    PreparedStatement changeMeble = con.prepareStatement(change);
-                    changeMeble.executeUpdate();
-                    changeMeble.close();
+                            + " WHERE id_produkt = " + String.valueOf(idProduktu);
+                    PreparedStatement changeProdukty = con.prepareStatement(change);
+                    changeProdukty.executeUpdate();
+                    changeProdukty.close();
                     JFrame msgFrame = new JFrame();
                     msgFrame.setLocation(400, 400);
                     JOptionPane.showMessageDialog(msgFrame, "DODANO ZAMÓWIENIE",
@@ -180,8 +179,6 @@ public class AddZamowienie {
             JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
                     "Error", JOptionPane.ERROR_MESSAGE);
 
-        } catch (ClassNotFoundException error_sterownik) {
-            System.out.println("Brak sterownika");
         }
     }
 }

@@ -2,19 +2,15 @@ package com.proj.projekt.Add;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddProdukt {
-    Connection con;
-    public AddProdukt()
-    {
+public class AddProdukt extends AddClass {
+    public AddProdukt() throws SQLException, IOException, ClassNotFoundException {
+        super();
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"
-                    + "localhost:1433;databaseName=dbo;"
-                    + "user=sa;password=haslosql;");
 
             List<String> lista=new ArrayList<String>();
             Statement zapytanie = con.createStatement();
@@ -27,6 +23,7 @@ public class AddProdukt {
             String[] kategorieNazwy = new String[lista.size()];
             kategorieNazwy = lista.toArray(kategorieNazwy);
             JComboBox kategorieBox = new JComboBox(kategorieNazwy);
+            kategorieBox.setFocusable(false);
             kategorieBox.setSelectedIndex(0);
             zapytanie.close();
 
@@ -71,21 +68,12 @@ public class AddProdukt {
                 prep.close();
             }
             con.close();
-        } catch (SQLException error_polaczenie) {
+        } catch (SQLException | NumberFormatException error_polaczenie) {
             System.out.println(error_polaczenie.getMessage());
             JFrame errorFrame = new JFrame();
             errorFrame.setLocation(400, 400);
             JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
                     "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException error) {
-            System.out.println(error.getMessage());
-            JFrame errorFrame = new JFrame();
-            errorFrame.setLocation(400, 400);
-            JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-
-        } catch (ClassNotFoundException error_sterownik) {
-            System.out.println("Brak sterownika");
         }
     }
 }

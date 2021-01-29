@@ -2,6 +2,7 @@ package com.proj.projekt;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.*;
@@ -20,12 +21,13 @@ public class Login extends JFrame implements ActionListener {
         user_label = new JLabel();
         user_label.setText("Login : ");
         userName_text = new JTextField(20);
-        // halso label
+        // haslo label
         password_label = new JLabel();
         password_label.setText("Hasło : ");
         password_text = new JPasswordField(20);
         // submit
         submit = new JButton("ZALOGUJ");
+        submit.setFocusable(false);
         panel = new JPanel(new GridBagLayout());
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
@@ -143,6 +145,8 @@ public class Login extends JFrame implements ActionListener {
         }
 
         catch(ClassNotFoundException error_sterownik) {
-            System.out.println("Brak sterownika");}
+            System.out.println("Brak sterownika");} catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

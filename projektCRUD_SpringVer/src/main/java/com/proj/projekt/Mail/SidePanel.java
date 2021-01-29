@@ -2,9 +2,12 @@ package com.proj.projekt.Mail;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class SidePanel extends JPanel {
     Connection con;
@@ -20,10 +23,17 @@ public class SidePanel extends JPanel {
             setLayout(new BorderLayout());
             gridPanel= new JPanel();
             gridPanel.setLayout(new GridLayout(0,1));
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"
-                    + "localhost:1433;databaseName=dbo;"
-                    + "user=sa;password=haslosql;");
+            Properties prop=new Properties();
+            InputStream in = getClass().getClassLoader().getResourceAsStream("application.properties");
+            prop.load(in);
+            in.close();
+
+            String drivers = prop.getProperty("spring.datasource.driverClassName");
+            String connectionURL = prop.getProperty("spring.datasource.url");
+            String username = prop.getProperty("spring.datasource.username");
+            String password = prop.getProperty("spring.datasource.password");
+            Class.forName(drivers);
+            con= DriverManager.getConnection(connectionURL,username,password);
             mailIDs = new ArrayList<>();
             mailButtons = new ButtonGroup();
             List<String> buttonTexts=new ArrayList<String>();
@@ -53,6 +63,8 @@ public class SidePanel extends JPanel {
         }
         catch (ClassNotFoundException error_sterownik) {
             System.out.println("Brak sterownika");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

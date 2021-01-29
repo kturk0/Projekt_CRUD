@@ -1,20 +1,18 @@
 package com.proj.projekt.Delete;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteKlient {
-    Connection con;
-    public DeleteKlient()
-    {
+public class DeleteKlient extends DeleteClass {
+    public DeleteKlient() throws SQLException, IOException, ClassNotFoundException {
+        super();
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"
-                    + "localhost:1433;databaseName=dbo;"
-                    + "user=sa;password=haslosql;");
 
             List<String> lista=new ArrayList<String>();
             Statement zapytanie = con.createStatement();
@@ -45,6 +43,7 @@ public class DeleteKlient {
                 }
             }
             JComboBox klienciBox = new JComboBox(klienciNazwy);
+            AutoCompleteDecorator.decorate(klienciBox);
             JPanel myPanel = new JPanel();
             myPanel.setLayout(new GridLayout(0, 1));
             myPanel.add(new JLabel("ID / IMIĘ NAZWISKO:"));
@@ -97,8 +96,6 @@ public class DeleteKlient {
             JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
                     "Error", JOptionPane.ERROR_MESSAGE);
 
-        } catch (ClassNotFoundException error_sterownik) {
-            System.out.println("Brak sterownika");
         }
     }
 }

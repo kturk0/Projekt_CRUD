@@ -1,14 +1,19 @@
 package com.proj.projekt.Add;
 
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class AddPracownik extends JPanel implements ActionListener {
-    Connection con;
+public class AddPracownik extends AddClass implements ActionListener {
 
     String[] adresyNazwy;
     java.util.List<String> listaA;
@@ -29,16 +34,18 @@ public class AddPracownik extends JPanel implements ActionListener {
 
 
     Boolean checker = true;
-    public AddPracownik(){
+    public AddPracownik() throws SQLException, IOException, ClassNotFoundException {
+        super();
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"
-                    + "localhost:1433;databaseName=dbo;"
-                    + "user=sa;password=haslosql;");
+
 
             JTextField imieField = new JTextField(5);
             JTextField nazwiskoField = new JTextField(5);
-            JTextField data_urField = new JTextField(5);
+            JDateChooser dateChooser = new JDateChooser();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            JTextFieldDateEditor editor = (JTextFieldDateEditor) dateChooser.getDateEditor();
+            editor.setEditable(false);
+            //Date dateToSet = formatter.parse(data);
             JTextField wynagrodzenieField = new JTextField(5);
             JTextField loginField = new JTextField(5);
             JPasswordField hasloField = new JPasswordField(5);
@@ -57,7 +64,7 @@ public class AddPracownik extends JPanel implements ActionListener {
             add(new JLabel("NAZWISKO:"));
             add(nazwiskoField);
             add(new JLabel("DATA UR (YYYY-MM-DD):"));
-            add(data_urField);
+            add(dateChooser);
             add(new JLabel("WYNAGRODZENIE:"));
             add(wynagrodzenieField);
             add(new JLabel("LOGIN:"));
@@ -66,6 +73,8 @@ public class AddPracownik extends JPanel implements ActionListener {
             add(hasloField);
             add(new JLabel("POZIOM UPRAWNIEŃ:"));
             add(poziomyBox);
+            r1.setFocusable(false);
+            r2.setFocusable(false);
             r1.setBounds(75,50,100,30);
             r2.setBounds(75,100,100,30);
             ButtonGroup bg=new ButtonGroup();
@@ -109,7 +118,7 @@ public class AddPracownik extends JPanel implements ActionListener {
                     PreparedStatement prep2 = con.prepareStatement(danePrac);
                     prep2.setString(1, imieField.getText());
                     prep2.setString(2, nazwiskoField.getText());
-                    prep2.setString(3, data_urField.getText());
+                    prep2.setString(3, formatter.format(dateChooser.getDate()));
                     prep2.setDouble(4, Double.parseDouble(wynagrodzenieField.getText()));
                     prep2.setString(5, loginField.getText());
                     prep2.setString(6, password);
@@ -139,7 +148,7 @@ public class AddPracownik extends JPanel implements ActionListener {
                     PreparedStatement prep = con.prepareStatement(danePrac);
                     prep.setString(1, imieField.getText());
                     prep.setString(2, nazwiskoField.getText());
-                    prep.setString(3, data_urField.getText());
+                    prep.setString(3, formatter.format(dateChooser.getDate()));
                     prep.setDouble(4, Double.parseDouble(wynagrodzenieField.getText()));
                     prep.setString(5, loginField.getText());
                     prep.setString(6, password);
@@ -154,30 +163,17 @@ public class AddPracownik extends JPanel implements ActionListener {
                 }
             }
             con.close();
-        } catch (SQLException error_polaczenie) {
+        } catch (SQLException | NumberFormatException error_polaczenie) {
             System.out.println(error_polaczenie.getMessage());
             JFrame errorFrame = new JFrame();
             errorFrame.setLocation(400, 400);
             JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
                     "Error", JOptionPane.ERROR_MESSAGE);
 
-        } catch (NumberFormatException error) {
-            System.out.println(error.getMessage());
-            JFrame errorFrame = new JFrame();
-            errorFrame.setLocation(400, 400);
-            JOptionPane.showMessageDialog(errorFrame, "BŁĘDNE DANE!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-
-        } catch (ClassNotFoundException error_sterownik) {
-            System.out.println("Brak sterownika");
         }
     }
     private void adresGetter(){
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://"+
-                    "localhost:1433;databaseName=dbo;"+
-                    "user=sa;password=haslosql;");
 
             listaA=new ArrayList<String>();
             Statement zapytanie = con.createStatement();
@@ -213,8 +209,6 @@ public class AddPracownik extends JPanel implements ActionListener {
         }
         catch(SQLException error_polaczenie) {
             System.out.println("Błąd połączenia z bazą danych");}
-        catch(ClassNotFoundException error_sterownik) {
-            System.out.println("Brak sterownika");}
 
     }
 

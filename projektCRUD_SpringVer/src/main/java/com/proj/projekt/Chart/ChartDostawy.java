@@ -4,6 +4,9 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.plot.PlotOrientation;
 
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,7 +16,7 @@ import java.util.List;
 public class ChartDostawy extends Barchart {
 
 
-    public ChartDostawy() throws ClassNotFoundException, SQLException {
+    public ChartDostawy() throws ClassNotFoundException, SQLException, IOException {
         super();
     }
 
@@ -21,12 +24,14 @@ public class ChartDostawy extends Barchart {
         updateDataset();
         chart = ChartFactory.createBarChart(" ", "Dzień", "Ilość dostaw",
                 dataset, PlotOrientation.VERTICAL, false, true, false);
-        this.add(monthBox);
-        this.add(yearSpinner);
-        this.add(leftButton);
-        this.add(rightButton);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(monthBox);
+        buttonPanel.add(yearSpinner);
+        buttonPanel.add(leftButton);
+        buttonPanel.add(rightButton);
+        this.add(buttonPanel, BorderLayout.PAGE_START);
         ChartPanel chartPanel = new ChartPanel(chart);
-        this.add(chartPanel);
+        this.add(chartPanel, BorderLayout.CENTER);
     }
 
     public void updateDataset() throws SQLException {

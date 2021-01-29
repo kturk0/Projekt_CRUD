@@ -10,6 +10,8 @@ import com.proj.projekt.Views.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 
 class FrameAdmin extends FrameBase implements ActionListener {
 
@@ -94,10 +96,12 @@ class FrameAdmin extends FrameBase implements ActionListener {
     public void actionPerformed(ActionEvent e){
         Object zrodlo=e.getSource();
         JPanelZamianaUprawnien f = new JPanelZamianaUprawnien();
+        try {
         if (zrodlo==ZarzadzanieUprawnieniami)
             f.zamianaUprawnien();
-        else if (zrodlo==Pracownicy)
-            new ViewPracownicy();
+        else if (zrodlo==Pracownicy) {
+                new ViewPracownicy();
+        }
         else if (zrodlo==Klienci)
             new ViewKlienci();
         else if (zrodlo==Dostawcy)
@@ -115,7 +119,7 @@ class FrameAdmin extends FrameBase implements ActionListener {
         else if (zrodlo== ButtonAddDostawca)
             new AddDostawca();
         else if (zrodlo==ButtonAddZamowienie)
-            new AddZamowienie();
+            new AddZamowienie(0);
         else if (zrodlo==ButtonAddDostawe)
             new AddDostawa();
         else if (zrodlo==ButtonAddProdukt)
@@ -136,7 +140,7 @@ class FrameAdmin extends FrameBase implements ActionListener {
             switch(frameExpansionState) {
                 case HIDDEN:
                    try {
-                       setSize(1200, 700);
+                       setSize(1100, 650);
                        inboxPanel = new InboxPanel(-1, 0);
                        add(inboxPanel);
                        this.revalidate();
@@ -147,7 +151,7 @@ class FrameAdmin extends FrameBase implements ActionListener {
                    }
                    break;
                 case INBOX:
-                    setSize(500, 700);
+                    setSize(440, 650);
                     remove(inboxPanel);
                     this.revalidate();
                     this.repaint();
@@ -169,7 +173,7 @@ class FrameAdmin extends FrameBase implements ActionListener {
             switch(frameExpansionState) {
                 case HIDDEN:
                     try {
-                        setSize(1200, 700);
+                        setSize(100, 650);
                         inboxPanel = new InboxPanel(-1, 1);
                         add(inboxPanel);
                         this.revalidate();
@@ -180,7 +184,7 @@ class FrameAdmin extends FrameBase implements ActionListener {
                     }
                     break;
                 case ARCHIVE:
-                    setSize(500, 700);
+                    setSize(440, 650);
                     remove(inboxPanel);
                     this.revalidate();
                     this.repaint();
@@ -198,7 +202,13 @@ class FrameAdmin extends FrameBase implements ActionListener {
                     }
             }
         }
-
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException classNotFoundException) {
+            classNotFoundException.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
 
 
     }
